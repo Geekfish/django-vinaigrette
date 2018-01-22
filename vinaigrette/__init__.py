@@ -10,15 +10,19 @@ from django.utils.translation import ugettext, ugettext_lazy, activate, get_lang
 
 VERSION = "1.1.1"
 
+
 class VinaigretteError(Exception):
     pass
+
 
 _registry = {}
 
 DOUBLE_PERCENTAGE_RE = re.compile(u'%(?!\()')
 
+
 def _vinaigrette_pre_save(sender, instance, **kwargs):
     setattr(instance, '_vinaigrette_saving', True)
+
 
 def _vinaigrette_post_save(sender, instance, **kwargs):
     delattr(instance, '_vinaigrette_saving')
@@ -33,7 +37,8 @@ def register(model, fields, restrict_to=None, manager=None, properties=None):
         of objects to collect translation strings from.
     manager -- Optional. A reference to a manager -- e.g. Person.objects -- to use
         when collecting translation strings.
-    properties -- A dictionary of "read only" properties that are composed by more that one field e.g. {'full_name': ['first_name', 'last_name']}
+    properties -- A dictionary of "read only" properties that are composed by more that one field
+                  e.g. {'full_name': ['first_name', 'last_name']}
 
     Note that both restrict_to and manager are only used when collecting translation
     strings. Gettext lookups will always be performed on relevant fields for all
